@@ -3,6 +3,8 @@ const c = canvas.getContext('2d')
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
+
+const gravity = 1.5
 /* contrucción player */
 class Player {
     constructor() {
@@ -12,9 +14,9 @@ class Player {
         }
         this.velocity = {
             x: 0,
-            y: 1
+            y: 0
         }
-        
+
         this.width = 30
         this.height = 30
     }
@@ -22,20 +24,82 @@ class Player {
     draw() {
         /* dibujamos objeto 2d */
         c.fillStyle = 'red'
-        c.fillRect(this.position.x, this.position.x, this.width, this.height)
+        c.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
-
+    /* añadimos movimiento x y */
     update() {        
         this.draw()
+        this.position.x += this.velocity.x
         this.position.y += this.velocity.y
+
+        if(this.position.y + this.height + this.velocity.y <= canvas.height)
+        this.velocity.y += gravity
+        else this.velocity.y = 0
     }
 }
-const player = new Player()
 
+
+const player = new Player()
+const keys = {
+    right: {
+        pressed: false
+    },
+    left: {
+        pressed: false
+    }
+}
+/* config movimiento velocidad */
 function animate() {
     requestAnimationFrame(animate)
     c.clearRect(0, 0, canvas.width, canvas.height)
     player.update()
+
+    if(keys.right.pressed) {
+        player.velocity.x = 5
+    }
+    else if (keys.left.pressed){
+        player.velocity.x = -5
+    }
+    else player.velocity.x = 0
 }
 
 animate()
+/* config controles de teclado */
+window.addEventListener('keydown', ({ keyCode }) => {
+    switch (keyCode) {
+        case 37:
+            console.log('left')
+            keys.left.pressed = true
+            break
+        case 40:
+            console.log('down')
+            break
+        case 39:
+            console.log('right')
+            keys.right.pressed = true
+            break
+        case 38:
+            console.log('up')
+            player.velocity.y -= 20
+            break
+    }
+})
+window.addEventListener('keyup', ({ keyCode }) => {
+    switch (keyCode) {
+        case 37:
+            console.log('left')
+            keys.left.pressed = false
+            break
+        case 40:
+            console.log('down')
+            break
+        case 39:
+            console.log('right')
+            keys.right.pressed = false
+            break
+        case 38:
+            console.log('up')
+            player.velocity.y -= 20
+            break
+    }
+})
