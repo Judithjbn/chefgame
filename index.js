@@ -67,6 +67,8 @@ const keys = {
         pressed: false
     }
 }
+/* rastrear cuanto distancia */
+let scrollOffset = 0
 
 function animate() {
     requestAnimationFrame(animate)
@@ -86,10 +88,12 @@ function animate() {
         player.velocity.x = 0
         /* mueve la plataforma cuando el personaje va a la der/izq */
         if(keys.right.pressed){
+            scrollOffset += 5
             platforms.forEach((platform) =>{
                 platform.position.x -= 5 
             })
         } else if (keys.left.pressed) {
+            scrollOffset -= 5
             platforms.forEach((platform) =>{
                 platform.position.x += 5
             })
@@ -103,6 +107,10 @@ function animate() {
             player.velocity.y = 0
         }
     })
+    /* evento cuando player llegue a 2000 
+    if (scrollOffset > 2000){
+        //alert('has ganado!')
+    }*/
 }
 
 animate()
