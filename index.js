@@ -38,8 +38,27 @@ class Player {
     }
 }
 
+class Platform {
+    constructor({x,y}) {
+        this.position = {
+            x,
+            y
+        }
+
+        this.width = 200
+        this.height = 20
+    }
+
+    draw() {
+        c.fillStyle = 'blue'
+        c.fillRect(this.position.x, this.position.y, this.width, this.height)
+    }
+}
 
 const player = new Player()
+/* posición de plataformas */
+const platforms = [new Platform({x:200, y:400}), new Platform({x:700, y:400})]
+
 const keys = {
     right: {
         pressed: false
@@ -48,19 +67,42 @@ const keys = {
         pressed: false
     }
 }
-/* config movimiento velocidad */
+
 function animate() {
     requestAnimationFrame(animate)
     c.clearRect(0, 0, canvas.width, canvas.height)
     player.update()
+    platforms.forEach((platform) =>{
+        platform.draw()
+    })
 
-    if(keys.right.pressed) {
+    if(keys.right.pressed && player.position.x < 400 ) {
         player.velocity.x = 5
     }
-    else if (keys.left.pressed){
+    else if (keys.left.pressed && player.position.x > 100){
         player.velocity.x = -5
     }
-    else player.velocity.x = 0
+    else {
+        player.velocity.x = 0
+        /* mueve la plataforma cuando el personaje va a la der/izq */
+        if(keys.right.pressed){
+            platforms.forEach((platform) =>{
+                platform.position.x -= 5 
+            })
+        } else if (keys.left.pressed) {
+            platforms.forEach((platform) =>{
+                platform.position.x += 5
+            })
+        }
+    }
+    /* colisión plataforma */
+    platforms.forEach((platform) => {
+        if (
+            player.position.y + player.height <= platform.position.y && player.position.y + player.height + player.velocity.y >= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width) 
+        {
+            player.velocity.y = 0
+        }
+    })
 }
 
 animate()
