@@ -1,9 +1,9 @@
-import platform from '../img/platform.png'
-import background from '../img/nsFJoNv.jpeg'
-import spriteRunLeft from '../img/spriteRunLeft.png'
-import spriteRunRight from '../img/spriteRunRight.png'
-import spriteStandLeft from '../img/spriteStandLeft.png'
-import spriteStandRight from '../img/spriteStandRight.png'
+import platform from './img/platform.png'
+import background from './img/nsFJoNv.jpeg'
+import spriteRunLeft from './img/spriteRunLeft.png'
+import spriteRunRight from './img/spriteRunRight.png'
+import spriteStandLeft from './img/spriteStandLeft.png'
+import spriteStandRight from './img/spriteStandRight.png'
 
 
 console.log(background)
