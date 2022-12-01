@@ -253,5 +253,4 @@ window.addEventListener('keyup', ({ keyCode }) => {
     }
 })
 
-    }
-})
+
